@@ -1,4 +1,5 @@
 import { SubscriptionLike, TearDownLogic } from "./types";
+import Subscriber from "./Subscriber";
 
 class Subscription implements SubscriptionLike {
   public closed = false;
@@ -29,6 +30,12 @@ class Subscription implements SubscriptionLike {
   }
 
   add(teardown?: TearDownLogic) {
+    if (teardown instanceof Subscriber) {
+      teardown.parent = this;
+      this.children.push(teardown);
+      return;
+    }
+
     this.children.push(new Subscription(teardown));
   }
 
