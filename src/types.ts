@@ -7,7 +7,7 @@ export interface SubscriptionLike {
 }
 
 export interface Observer<T> {
-  next(value?: T): void;
+  next(value?: T): void;  
   error(): void;
   complete(): void;
 }
