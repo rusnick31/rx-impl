@@ -2,9 +2,7 @@ import Subscriber from "../Subscriber";
 import { OperatorFunction, Operator } from "../types";
 import Observable from "../Observable";
 
-export default function map<T, R>(
-  project: (value: T) => R
-): OperatorFunction<T, R> {
+export function map<T, R>(project: (value: T) => R): OperatorFunction<T, R> {
   return source => source.lift(new MapOperator(project));
 }
 
