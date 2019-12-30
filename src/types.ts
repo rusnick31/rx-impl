@@ -7,17 +7,17 @@ export interface SubscriptionLike {
 }
 
 export interface Observer<T> {
-  next(value?: T): void;  
+  next(value?: T): void;
   error(): void;
   complete(): void;
 }
 
-export type OperatorFunction<T, R> = (
+export type OperatorFunction<T, V> = (
   observable: Observable<T>
-) => Observable<R>;
+) => Observable<V>;
 
-export interface Operator<T, R> {
-  call(subscriber: Subscriber<R>, source: Observable<T>): Subscriber<T>;
+export interface Operator<T, V> {
+  call(subscriber: Subscriber<V>, source: Observable<T>): Subscriber<T>;
 }
 
 export type TearDownLogic = () => void;
