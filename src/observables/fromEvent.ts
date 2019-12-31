@@ -5,6 +5,9 @@ export function fromEvent(element: HTMLElement, eventType: string) {
     const handler = (event: Event) => subscriber.next(event);
 
     element.addEventListener(eventType, handler);
-    return () => element.removeEventListener(eventType, handler);
+    return () => {
+      element.removeEventListener(eventType, handler);
+      console.log("unsubscribed from FromEvent");
+    };
   });
 }

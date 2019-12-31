@@ -1,6 +1,7 @@
 import { OperatorFunction, Operator } from "../types";
 import Observable from "../Observable";
 import Subscriber from "../Subscriber";
+import Subscription from "../Subscription";
 
 export function switchMap<T, V>(
   project: (value: T) => Observable<V | T>
@@ -23,7 +24,7 @@ class SwitchMapSubscriber<T, V> extends Subscriber<T> {
     subscriber: Subscriber<T | V>,
     private project: (value: T) => Observable<V | T>
   ) {
-    super(subscriber);
+    super(subscriber as Subscriber<T | V>);
     this.project = project;
   }
 
@@ -37,6 +38,7 @@ class SwitchMapSubscriber<T, V> extends Subscriber<T> {
         error: () => {},
         complete: () => {}
       });
+      (this.destination as Subscription).add(this.innerSubscriber);
     } catch (errors) {
       this.destination.error();
     }

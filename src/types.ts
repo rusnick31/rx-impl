@@ -20,4 +20,4 @@ export interface Operator<T, V> {
   call(subscriber: Subscriber<V>, source: Observable<T>): Subscriber<T>;
 }
 
-export type TearDownLogic = () => void;
+export type TearDownLogic = (() => void) | { unsubscribe(): void };

@@ -7,6 +7,9 @@ export function interval(time: number): Observable<number> {
       subscriber.next(count);
       count += 1;
     }, time);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      console.log("unsubscribed from interval");
+    };
   });
 }

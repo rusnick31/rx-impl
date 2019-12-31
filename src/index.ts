@@ -27,7 +27,7 @@ import { interval, fromEvent } from "./observables";
 //     next: (value: string) => console.log(value)
 //   });
 
-fromEvent(document.getElementById("test-button"), "click")
+window.subscriber = fromEvent(document.getElementById("test-button"), "click")
   .pipe(switchMap(() => interval(1000)))
   .subscribe({
     next: (count: number) => console.log(count)

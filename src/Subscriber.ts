@@ -4,7 +4,7 @@ import Subscription from "./Subscription";
 class Subscriber<T> extends Subscription implements Observer<T> {
   private isStopped = false;
 
-  constructor(protected destination: Observer<any>) {
+  constructor(protected destination: Observer<any> | Subscriber<any>) {
     super();
   }
 
