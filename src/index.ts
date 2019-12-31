@@ -1,7 +1,7 @@
 import Observable from "./Observable";
-import { map, filter, scan } from "./operators";
-import { interval } from "./observables";
-import "./reference";
+import { map, filter, scan, switchMap } from "./operators";
+import { interval, fromEvent } from "./observables";
+// import "./reference";
 
 // const subscription = new Observable(observer => {
 //   let count = 0;
@@ -21,8 +21,14 @@ import "./reference";
 
 // setTimeout(() => subscription.unsubscribe(), 10000);
 
-interval(1000)
-  .pipe(map(count => `It's ${count}`))
+// interval(1000)
+//   .pipe(map(count => `It's ${count}`))
+//   .subscribe({
+//     next: (value: string) => console.log(value)
+//   });
+
+fromEvent(document.getElementById("test-button"), "click")
+  .pipe(switchMap(() => interval(1000)))
   .subscribe({
-    next: (value: string) => console.log(value)
+    next: (count: number) => console.log(count)
   });
