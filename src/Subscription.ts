@@ -7,18 +7,15 @@ class Subscription implements SubscriptionLike {
   protected parent: Subscription = null;
   private children: Subscription[] = [];
 
-  constructor(private teardown?: TearDownLogic) {}
+  constructor(private teardown?: () => void) {}
 
   unsubscribe() {
     if (this.closed) {
       return;
     }
-
     this.closed = true;
 
-    if (this.teardown) {
-      this.teardown();
-    }
+    this._unsubscribe();
 
     if (this.parent) {
       this.parent.remove(this);
@@ -29,6 +26,12 @@ class Subscription implements SubscriptionLike {
     this.children = [];
   }
 
+  protected _unsubscribe() {
+    if (this.teardown) {
+      this.teardown();
+    }
+  }
+
   add(teardown?: TearDownLogic) {
     if (teardown instanceof Subscriber) {
       teardown.parent = this;
@@ -36,7 +39,7 @@ class Subscription implements SubscriptionLike {
       return;
     }
 
-    this.children.push(new Subscription(teardown));
+    this.children.push(new Subscription(teardown as () => void));
   }
 
   remove(subsription: Subscription) {
