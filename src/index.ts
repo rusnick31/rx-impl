@@ -1,34 +1,18 @@
-import Observable from "./Observable";
-import { map, filter, scan, switchMap } from "./operators";
-import { interval, fromEvent } from "./observables";
-// import "./reference";
+import Observable from './Observable';
+import { map, filter, scan, switchMap, multicast, refCount } from './operators';
+import { interval, fromEvent } from './observables';
+import { Subject } from './Subject';
 
-// const subscription = new Observable(observer => {
-//   let count = 0;
-//   const id = setInterval(() => observer.next(count++), 1000);
-//   return () => {
-//     console.log("clearing");
-//     clearInterval(id);
-//   };
-// }).pipe(
-//   map((val: number) => val + 100),
-//   filter(val => val < 105),
-//   scan((acc: string | number, value: number) => `${acc} ${value}`)
-// );
-// .subscribe({
-//   next: (val: number) => console.log(val)
-// });
+const observable = interval(1000).pipe(
+  map(count => `It's ${count}`),
+  multicast(() => new Subject()),
+  refCount(),
+);
 
-// setTimeout(() => subscription.unsubscribe(), 10000);
+window.sub1 = observable.subscribe({
+  next: (value: string) => console.log(`1: ${value}`),
+});
 
-// interval(1000)
-//   .pipe(map(count => `It's ${count}`))
-//   .subscribe({
-//     next: (value: string) => console.log(value)
-//   });
-
-window.subscriber = fromEvent(document.getElementById("test-button"), "click")
-  .pipe(switchMap(() => interval(1000)))
-  .subscribe({
-    next: (count: number) => console.log(count)
-  });
+window.sub2 = observable.subscribe({
+  next: (value: string) => console.log(`2: ${value}`),
+});

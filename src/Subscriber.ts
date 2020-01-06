@@ -37,10 +37,12 @@ class Subscriber<T> extends Subscription implements Observer<T> {
 
   _error() {
     this.destination.error();
+    super.unsubscribe();
   }
 
   _complete() {
     this.destination.complete();
+    super.unsubscribe();
   }
 
   unsubscribe() {
