@@ -1,5 +1,6 @@
-import Observable from "./Observable";
-import Subscriber from "./Subscriber";
+import Observable from './Observable';
+import Subscriber from './Subscriber';
+import Subscription from './Subscription';
 
 export interface SubscriptionLike {
   readonly closed: boolean;
@@ -13,7 +14,7 @@ export interface Observer<T> {
 }
 
 export type OperatorFunction<T, V> = (
-  observable: Observable<T>
+  observable: Observable<T>,
 ) => Observable<V>;
 
 export interface Operator<T, V> {
@@ -21,3 +22,7 @@ export interface Operator<T, V> {
 }
 
 export type TearDownLogic = (() => void) | { unsubscribe(): void };
+
+export interface SchedulerLike {
+  schedule(work: Function, delay: number, state: any): Subscription;
+}
